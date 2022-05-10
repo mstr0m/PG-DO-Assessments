@@ -24,13 +24,11 @@ variable "PATH_TO_PRIVATE_KEY" {
   description = "Exact path to Private Key file location"
   default     = "~/.ssh/aws-rsa"
   type        = string
-  sensitive   = true
 }
 variable "PATH_TO_PUBLIC_KEY" {
   description = "Exact path to Public Key file location"
   default     = "~/.ssh/aws-rsa.pub"
   type        = string
-  sensitive   = true
 }
 # SSH
 variable "SSH_USER" {
