@@ -55,7 +55,8 @@ resource "aws_instance" "wordpress" {
     # Switching context to ansible folder
     working_dir = "${path.module}/ansible/"
     # Run ansible-playbook for specific host and provide path to private key file
-    command = "ansible-playbook -i ${self.public_ip}, --private-key ${var.PATH_TO_PRIVATE_KEY} wordpress.yaml"
+    # We use Force Color option because by default terrafrom output will be lack and white
+    command = "ANSIBLE_FORCE_COLOR=1 ansible-playbook -i ${self.public_ip}, --private-key ${var.PATH_TO_PRIVATE_KEY} wordpress.yaml"
   }
 
 }
