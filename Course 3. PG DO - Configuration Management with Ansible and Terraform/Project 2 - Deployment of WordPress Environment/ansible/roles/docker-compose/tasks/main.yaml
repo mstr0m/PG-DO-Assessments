@@ -6,6 +6,5 @@
 
 - name: Install docker-compose
   pip:
-    name: docker
-  with_items:
-    - docker-compose
+    name: docker-compose
+    state: present 
