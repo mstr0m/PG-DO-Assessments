@@ -1,0 +1,37 @@
+---
+- name: Install prereqs
+  apt:
+    name: '{{item}}'
+    state: latest
+    update_cache: yes
+  with_items:
+    - ca-certificates
+    - curl
+    - gnupg
+    - lsb-release
+
+- name: Add Docker GPG apt Key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker Repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable
+    state: present
+
+- name: Install docker
+  apt:
+    name: '{{item}}'
+    state: latest
+    update_cache: yes
+  with_items:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    - docker-compose-plugin
+
+- name: Make sure docker is running
+  systemd:
+    state: started
+    name: docker

@@ -1,0 +1,2 @@
+---
+- name: Copy docker-compose file and run WordPress app

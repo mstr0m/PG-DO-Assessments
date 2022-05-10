@@ -1,0 +1,9 @@
+---
+- name: Install docker and run WordPress app
+  hosts: all
+  remote_user: ubuntu
+  become: yes
+
+  roles:
+  - docker
+  - wordpress
