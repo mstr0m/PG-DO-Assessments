@@ -1,2 +1,17 @@
 ---
-- name: Copy docker-compose file and run WordPress app
+- name: Ensures {{ wordpress_root }} directory exists
+  file:
+    path: "{{ wordpress_root }}"
+    state: directory
+
+- name: Copy docker-compose file
+  copy:
+    src: "../{{ item }}"
+    dest: "{{ wordpress_root }}/{{ item }}"
+  loop:
+  - docker-compose.yml
+
+- name: Run docker-compose WordPress app stack
+  docker_compose:
+    project_src: "{{ wordpress_root }}"
+    project_name: WordPress

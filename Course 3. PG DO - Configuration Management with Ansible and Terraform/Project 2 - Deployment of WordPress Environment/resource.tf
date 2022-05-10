@@ -5,42 +5,41 @@ resource "aws_key_pair" "aws_key" {
 }
 
 # SETUP SECURITY GROUP - AWS FIREWALL
-resource "aws_security_group" "sg_jenkins" {
-  name = "sg_jenkins"
+resource "aws_security_group" "sg_wordpress" {
+  name = "sg_wordpress"
+  # Port 22 will be used by Ansible SSH connection
   ingress {
-    from_port = 22
-    to_port = 22
-    protocol = "tcp"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  # Port 80 will be used to access WordPress app
   ingress {
-    from_port = 8080
-    to_port = 8080
-    protocol = "tcp"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  ingress {
-    from_port = 80
-    to_port = 80
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  # Any outgoing traffic is allowed for VM
   egress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
-# VM INSTANCE
-resource "aws_instance" "jenkins" {
-  ami                       = var.AMIS["ubuntu"]
-  instance_type             = var.INSTANCE_TYPE
-  key_name                  = aws_key_pair.aws_key.key_name
-  vpc_security_group_ids    = [aws_security_group.sg_jenkins.id]
+# EC2 INSTANCE
+resource "aws_instance" "wordpress" {
+  ami           = var.AMIS["ubuntu"]
+  instance_type = var.INSTANCE_TYPE
+  # Add previously generated public key to VM
+  key_name = aws_key_pair.aws_key.key_name
+  # Add VM to security group
+  vpc_security_group_ids = [aws_security_group.sg_wordpress.id]
 
-  # WAIT FOR SSH TO BE READY
+  # Wait for SSH connection to become available, which means VM is up and running
   provisioner "remote-exec" {
     inline = ["echo 'SSH is up!'"]
     connection {
@@ -51,10 +50,12 @@ resource "aws_instance" "jenkins" {
     }
   }
 
-  # RUN ANSIBLE PLAYBOOK TO SETUP JENKINS
+  # As soon SSH is ready we can call Ansible playbook to configure WordPress app
   provisioner "local-exec" {
+    # Switching context to ansible folder
     working_dir = "${path.module}/ansible/"
-    command = "ansible-playbook -i ${self.public_ip}, --private-key ${var.PATH_TO_PRIVATE_KEY} jenkins.yaml"
+    # Run ansible-playbook for specific host and provide path to private key file
+    command = "ansible-playbook -i ${self.public_ip}, --private-key ${var.PATH_TO_PRIVATE_KEY} wordpress.yaml"
   }
-  
+
 }

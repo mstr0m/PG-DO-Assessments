@@ -1,3 +1,4 @@
-output "OUT" {
-  value = "Please check last Ansible output for Jenkins URL and Jenkins initialAdminPassword"
+output "wordpress_url" {
+  description = "WordPress app URL"
+  value       = "http://${aws_instance.wordpress.public_ip}"
 }
