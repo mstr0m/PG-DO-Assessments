@@ -7,7 +7,7 @@ metadata:
     app: wordpress
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   volumeName: wordpress-mysql-pv
   resources:
     requests:

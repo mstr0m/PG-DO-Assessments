@@ -8,7 +8,7 @@ spec:
   capacity:
     storage: 5Gi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   nfs:
     server: 172.31.52.53
     path: "/mydbdata"

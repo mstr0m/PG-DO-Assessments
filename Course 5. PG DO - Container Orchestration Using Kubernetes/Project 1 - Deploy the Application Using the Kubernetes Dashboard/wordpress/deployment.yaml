@@ -6,6 +6,7 @@ metadata:
   labels:
     app: wordpress
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: wordpress
@@ -25,10 +26,9 @@ spec:
         command:
         - sh
         - -c
-        - echo -e "[!] Checking for MySQL response";
-          while ! nc -z $WORDPRESS_DB_HOST 3306;
-          do printf "-"; sleep 1; done;
-          echo -e "[!] MySQL is up and running!";
+        - while ! nc -zw 1 $WORDPRESS_DB_HOST 3306;
+          do echo -e "[-] Waiting for MySQL response..."; sleep 2; done;
+          echo -e "[+] MySQL is up and running!";
       containers:
       - image: wordpress:4.8-apache
         name: wordpress
