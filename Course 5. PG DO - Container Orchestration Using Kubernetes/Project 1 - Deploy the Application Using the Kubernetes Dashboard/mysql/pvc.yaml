@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wordpress-mysql-pvc
+  namespace: cep-project1
+  labels:
+    app: wordpress
+spec:
+  accessModes:
+    - ReadWriteMany
+  volumeName: wordpress-pv
+  resources:
+    requests:
+      storage: 5Gi

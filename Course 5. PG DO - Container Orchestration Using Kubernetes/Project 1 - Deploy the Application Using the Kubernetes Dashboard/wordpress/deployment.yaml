@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+  namespace: cep-project1
+  labels:
+    app: wordpress
+spec:
+  selector:
+    matchLabels:
+      app: wordpress
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: wordpress
+        tier: frontend
+    spec:
+      initContainers:
+      - image: busybox:1.28
+        name: init-mysql-check
+        command:
+        - sh
+        - -c
+        - echo -e "[!] Checking for MySQL response";
+          while ! nc -z wordpress-mysql 3306;
+          do printf "-"; sleep 1; done;
+          echo -e "[!] MySQL is up and running!";
+      containers:
+      - image: wordpress:4.8-apache
+        name: wordpress
+        envFrom:
+          - secretRef:
+              name: wordpress-env
+        env:
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: wordpress-mysql-env
+              key: MYSQL_ROOT_PASSWORD
+        ports:
+        - containerPort: 80
+          name: http
+        volumeMounts:
+        - name: wordpress-volume
+          mountPath: /var/www/html
+      volumes:
+      - name: wordpress-volume
+        persistentVolumeClaim:
+          claimName: wordpress-pvc
