@@ -21,7 +21,7 @@ spec:
       - image: busybox:1.28
         name: init-mysql-check
         envFrom:
-          - secretRef:
+          - configMapRef:
               name: wordpress-env
         command:
         - sh
@@ -33,7 +33,7 @@ spec:
       - image: wordpress:4.8-apache
         name: wordpress
         envFrom:
-          - secretRef:
+          - configMapRef:
               name: wordpress-env
         env:
         - name: WORDPRESS_DB_PASSWORD
