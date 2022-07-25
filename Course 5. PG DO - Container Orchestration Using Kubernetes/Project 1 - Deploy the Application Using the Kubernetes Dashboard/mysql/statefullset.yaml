@@ -1,11 +1,13 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: wordpress-mysql
   namespace: cep-project1
   labels:
     app: wordpress
 spec:
+  serviceName: wordpress-mysql
+  replicas: 1
   selector:
     matchLabels:
       app: wordpress
