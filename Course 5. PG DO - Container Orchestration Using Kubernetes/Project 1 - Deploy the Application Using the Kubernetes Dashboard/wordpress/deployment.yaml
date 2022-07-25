@@ -19,11 +19,14 @@ spec:
       initContainers:
       - image: busybox:1.28
         name: init-mysql-check
+        envFrom:
+          - secretRef:
+              name: wordpress-env
         command:
         - sh
         - -c
         - echo -e "[!] Checking for MySQL response";
-          while ! nc -z wordpress-mysql 3306;
+          while ! nc -z $WORDPRESS_DB_HOST 3306;
           do printf "-"; sleep 1; done;
           echo -e "[!] MySQL is up and running!";
       containers:
