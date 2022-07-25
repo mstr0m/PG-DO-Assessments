@@ -23,6 +23,12 @@ spec:
         envFrom:
           - configMapRef:
               name: wordpress-env
+        env:
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: wordpress-mysql-env
+              key: MYSQL_ROOT_PASSWORD
         command:
         - sh
         - -c
