@@ -18,16 +18,20 @@ spec:
         tier: frontend
     spec:
       initContainers:
-      - image: busybox:1.28
+      - image: kanisterio/mysql-sidecar:0.44.0
         name: init-mysql-check
         envFrom:
           - configMapRef:
               name: wordpress-env
         command:
         - sh
-        - -c
-        - while ! nc -zw 1 $WORDPRESS_DB_HOST 3306;
-          do echo -e "[-] Waiting for MySQL response..."; sleep 2; done;
+        - c
+        - |
+          until mysql -u root --password=$WORDPRESS_DB_PASSWORD -h $WORDPRESS_DB_HOST -e "show databases;";
+          do
+            echo -e "[-] Waiting for MySQL response...";
+            sleep 3;
+          done;
           echo -e "[+] MySQL is up and running!";
       containers:
       - image: wordpress:4.8-apache
