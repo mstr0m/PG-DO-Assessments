@@ -8,7 +8,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  volumeName: wordpress-pv
+  volumeName: wordpress-mysql-pv
   resources:
     requests:
       storage: 5Gi
