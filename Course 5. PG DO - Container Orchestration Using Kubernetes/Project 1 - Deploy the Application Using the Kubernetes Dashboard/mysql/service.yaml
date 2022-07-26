@@ -4,11 +4,11 @@ metadata:
   name: wordpress-mysql
   namespace: cep-project1
   labels:
-    app: wordpress
+    app: wordpress-mysql
 spec:
   selector:
     name: wordpress-mysql
-    app: wordpress
+    app: wordpress-mysql
   ports:
   - name: mysql
     port: 3306
