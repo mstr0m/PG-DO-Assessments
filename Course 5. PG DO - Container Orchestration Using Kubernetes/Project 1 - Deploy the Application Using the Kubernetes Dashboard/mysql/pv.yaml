@@ -10,5 +10,5 @@ spec:
   accessModes:
     - ReadWriteOnce
   nfs:
-    server: 172.31.52.53
+    server: 172.31.53.30
     path: "/nfs-share"
