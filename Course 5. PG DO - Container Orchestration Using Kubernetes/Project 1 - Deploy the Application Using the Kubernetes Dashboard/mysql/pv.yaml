@@ -11,4 +11,4 @@ spec:
     - ReadWriteOnce
   nfs:
     server: 172.31.52.53
-    path: "/mydbdata"
+    path: "/nfs-share"
