@@ -10,12 +10,10 @@ spec:
   selector:
     matchLabels:
       app: wordpress
-      tier: frontend
   template:
     metadata:
       labels:
         app: wordpress
-        tier: frontend
     spec:
       initContainers:
       - image: busybox:1.34

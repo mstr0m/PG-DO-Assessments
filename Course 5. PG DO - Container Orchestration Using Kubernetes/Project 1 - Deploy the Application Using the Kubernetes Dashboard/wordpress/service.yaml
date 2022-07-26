@@ -7,7 +7,6 @@ metadata:
     app: wordpress
 spec:
   selector:
-    name: wordpress
     app: wordpress
   ports:
   - name: http

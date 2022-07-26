@@ -1,14 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: wordpress-mysql
+  name: mysql
   namespace: cep-project1
   labels:
-    app: wordpress-mysql
+    app: mysql
 spec:
   selector:
-    name: wordpress-mysql
-    app: wordpress-mysql
+    app: mysql
   ports:
   - name: mysql
     port: 3306
