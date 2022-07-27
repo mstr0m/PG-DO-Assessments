@@ -32,7 +32,7 @@ spec:
           done;
           echo -e "[+] MySQL is up and running!";
       containers:
-      - image: wordpress:5
+      - image: wordpress
         name: wordpress
         envFrom:
           - configMapRef:
