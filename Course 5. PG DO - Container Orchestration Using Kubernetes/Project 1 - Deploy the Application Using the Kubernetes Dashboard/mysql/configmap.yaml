@@ -1,9 +1,8 @@
 apiVersion: v1
-kind: Secret
+kind: ConfigMap
 metadata:
   name: wordpress-mysql-env
   namespace: cep-project1
-type: Opaque
 data:
-  MYSQL_USER: d29yZHByZXNz
-  MYSQL_PASSWORD: cGFzc3dvcmQ=
+  MYSQL_DATABASE: wordpress
+  MYSQL_RANDOM_ROOT_PASSWORD: 1

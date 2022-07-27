@@ -5,3 +5,4 @@ metadata:
   namespace: cep-project1
 data:
   WORDPRESS_DB_HOST: wordpress-mysql
+  WORDPRESS_DB_NAME: wordpress

@@ -32,17 +32,22 @@ spec:
           done;
           echo -e "[+] MySQL is up and running!";
       containers:
-      - image: wordpress:4.8-apache
+      - image: wordpress:5
         name: wordpress
         envFrom:
           - configMapRef:
               name: wordpress-env
         env:
+        - name: WORDPRESS_DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: wordpress-mysql-env
+              key: MYSQL_USER
         - name: WORDPRESS_DB_PASSWORD
           valueFrom:
             secretKeyRef:
               name: wordpress-mysql-env
-              key: MYSQL_ROOT_PASSWORD
+              key: MYSQL_PASSWORD
         ports:
         - containerPort: 80
           name: http

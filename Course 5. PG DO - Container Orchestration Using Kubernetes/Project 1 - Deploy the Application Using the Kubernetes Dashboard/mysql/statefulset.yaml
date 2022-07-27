@@ -22,6 +22,8 @@ spec:
         envFrom:
           - secretRef:
               name: wordpress-mysql-env
+          - configMapRef:
+              name: wordpress-mysql-env
         ports:
         - containerPort: 3306
           name: mysql
