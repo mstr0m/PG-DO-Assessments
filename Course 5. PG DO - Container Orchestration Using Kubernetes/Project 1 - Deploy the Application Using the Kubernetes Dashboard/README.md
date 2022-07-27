@@ -4,11 +4,11 @@
 ```
 kubectl apply -f  https://raw.githubusercontent.com/kubernetes/dashboard/v2.5.0/aio/deploy/recommended.yaml
 ```
-### Patch svc to use NodePort
+### Patch k8s dashboard svc to use NodePort
 ```
 kubectl -n kubernetes-dashboard patch svc kubernetes-dashboard -p '{"spec": {"type": "NodePort"}}'
 ```
-### Create user and assigne admin role
+### Create user and assign admin role
 ```
 kubectl apply -f sandry/
 ```
