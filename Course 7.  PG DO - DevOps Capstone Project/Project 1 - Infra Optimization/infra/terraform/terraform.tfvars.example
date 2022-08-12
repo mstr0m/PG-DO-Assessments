@@ -1,0 +1,23 @@
+# Copy this file as terraform.tfvars and change variables according to your needs.
+#
+#
+# * AWS credentials section is MANDATORY *
+#
+AWS_ACCESS_KEY = ""
+AWS_SECRET_KEY = ""
+AWS_TOKEN = ""
+#
+#
+# Other variables can be customized or left with default values
+#
+#AWS_REGION = "us-east-1"
+#
+#PATH_TO_PRIVATE_KEY = "~/.ssh/aws-rsa"
+#PATH_TO_PUBLIC_KEY = "~/.ssh/aws-rsa.pub"
+#
+#SSH_USER = "ubuntu"
+#
+#AMIS = {ubuntu = "ami-04505e74c0741db8d"}
+#INSTANCE_TYPE = "t2.medium"
+#
+#K8S_WORKER_COUNT = 1
