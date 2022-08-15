@@ -24,11 +24,11 @@
   roles:
   - k8s_worker
 
-- name: Deploy k8s manifests
-  hosts: k8s_masters
-  remote_user: ubuntu
-  become: yes
+# - name: Deploy k8s manifests
+#   hosts: k8s_masters
+#   remote_user: ubuntu
+#   become: yes
   
-  roles:
-  - platform
-  - app
+#   roles:
+#   - platform
+#   #- app

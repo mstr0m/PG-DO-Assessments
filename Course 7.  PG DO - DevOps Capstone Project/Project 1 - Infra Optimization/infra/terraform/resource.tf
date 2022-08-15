@@ -25,7 +25,6 @@ resource "aws_security_group" "sg_k8s" {
 
 # EC2 INSTANCE FOR MASTER
 resource "aws_instance" "k8s-master" {
-  count         = 1
   ami           = var.AMIS["ubuntu"]
   instance_type = var.INSTANCE_TYPE
   # Add previously generated public key to VM
@@ -93,5 +92,11 @@ resource "local_file" "inventory" {
     # Run ansible-playbook, it will use freshly created inventory file
     # We use Force Color option because by default terrafrom output will be lack and white
     command = "ANSIBLE_FORCE_COLOR=1 ansible-playbook k8s.yaml"
+  }
+
+  # Now we replace ip address in local ~/.kube/config to public one
+  provisioner "local-exec" {
+    # And we replace ip address in local ~/.kube/config to public one
+    command = "sed -ri 's/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b'/"${aws_instance.k8s-master.public_ip}"/ ~/.kube/config"
   }
 }
