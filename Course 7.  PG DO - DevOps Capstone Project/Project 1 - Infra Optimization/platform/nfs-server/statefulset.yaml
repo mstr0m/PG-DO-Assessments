@@ -13,8 +13,6 @@ spec:
       labels:
         role: nfs-server
     spec:
-      nodeSelector:
-        storage: main
       containers:
         - name: nfs-server
           image: gists/nfs-server:2.5.4
