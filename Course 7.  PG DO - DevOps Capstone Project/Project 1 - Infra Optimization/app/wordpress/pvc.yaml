@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wordpress-pvc
+  namespace: app
+  labels:
+    app: wordpress
+spec:
+  accessModes:
+    - ReadWriteMany
+  volumeName: nfs-pv
+  resources:
+    requests:
+      storage: 3Gi

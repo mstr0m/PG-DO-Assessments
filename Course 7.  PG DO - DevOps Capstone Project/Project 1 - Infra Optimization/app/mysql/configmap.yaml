@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wordpress-mysql-env
+  namespace: app
+data:
+  MYSQL_DATABASE: wordpress
+  MYSQL_RANDOM_ROOT_PASSWORD: '1'
