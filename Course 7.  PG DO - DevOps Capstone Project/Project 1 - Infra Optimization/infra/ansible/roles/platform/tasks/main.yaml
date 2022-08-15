@@ -1,4 +1,8 @@
 ---
+- name: Deploy k8s network plugin
+  k8s:
+    definition: "{{lookup('url', 'https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml', split_lines=False) | from_yaml_all | list}}"
+
 - name: Deploy namespace and user
   k8s:
     definition: "{{ lookup('template', '{{ item }}') | from_yaml }}"
