@@ -1,6 +1,0 @@
----
-- name: Deploy app
-  k8s:
-    definition: "{{ lookup('template', '{{ item }}') | from_yaml }}"
-  with_fileglob:
-    - "/../../app/*.yaml"
