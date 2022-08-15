@@ -97,7 +97,7 @@ resource "local_file" "inventory" {
   # Now we replace ip address in local ~/.kube/config to public one
   provisioner "local-exec" {
     # And we replace ip address in local ~/.kube/config to public one
-    command = "sed -ri 's/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b'/"${aws_instance.k8s-master.public_ip}"/ ~/.kube/config"
+    command = "sed -ri 's/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b'/${aws_instance.k8s-master.public_ip}/ ~/.kube/config"
   }
 
   # Deploy plaltform and application layers
