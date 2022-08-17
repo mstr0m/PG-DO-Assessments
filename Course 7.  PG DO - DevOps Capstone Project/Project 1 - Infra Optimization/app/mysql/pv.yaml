@@ -1,14 +1,14 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: nfs
+  name: mysql
   labels:
-    type: local-nfs
+    type: local-mysql
 spec:
-  storageClassName: manual
+  storageClassName: ""
   capacity:
     storage: 2Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/tmp/data/nfs"
+    path: "/tmp/data/mysql"

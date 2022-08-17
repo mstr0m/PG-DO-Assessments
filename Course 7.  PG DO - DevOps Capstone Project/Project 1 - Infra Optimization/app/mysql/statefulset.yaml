@@ -34,8 +34,11 @@ spec:
     - metadata:
         name: wordpress-mysql-pvc
       spec:
-        storageClassName: local-path
+        storageClassName: manual
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
-            storage: 3Gi
+            storage: 2Gi
+        selector:
+          matchLabels:
+            type: local-mysql
