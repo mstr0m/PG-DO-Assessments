@@ -9,7 +9,7 @@
   register: publicIP
 
 - name: Init
-  shell: kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address {{ publicIP.stdout }} --apiserver-cert-extra-sans strings {{ publicIP.stdout }}
+  shell: kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-cert-extra-sans={{ publicIP.stdout }}
   when: not kubeadm_ca.stat.exists
 
 - name: Ensure .kube directory exists.
@@ -37,11 +37,11 @@
     name: k8s_master
     k8s_join_command: "{{ join_command.stdout }}"
 
-# - name: Replace local ip in kubectl admin.conf to public ip
-#   replace:
-#     path: /etc/kubernetes/admin.conf
-#     regexp: '(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b'
-#     replace: "{{ publicIP.stdout }}"
+- name: Replace local ip in kubectl admin.conf to public ip
+  replace:
+    path: /etc/kubernetes/admin.conf
+    regexp: '(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b'
+    replace: "{{ publicIP.stdout }}"
 
 - name: Copy admin.conf to localhost ~/.kube/conf
   ansible.builtin.fetch:
