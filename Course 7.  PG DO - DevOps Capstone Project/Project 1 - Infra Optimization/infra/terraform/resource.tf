@@ -100,11 +100,11 @@ resource "local_file" "inventory" {
     working_dir = "${path.module}/../../"
     command = <<EOT
       "pwd"
-      "kubectl apply -f platform/namespace.yaml --insecure-skip-tls-verify"
-      "kubectl apply -f platform/user/ --insecure-skip-tls-verify"
-      "kubectl apply -f platform/nfs-server/ --insecure-skip-tls-verify"
-      "kubectl apply -f app/mysql/ --insecure-skip-tls-verify"
-      "kubectl apply -f app/wordpress/ --insecure-skip-tls-verify"
+      "kubectl apply -f platform/namespace.yaml"
+      "kubectl apply -f platform/user/"
+      "kubectl apply -f platform/nfs-server/"
+      "kubectl apply -f app/mysql/"
+      "kubectl apply -f app/wordpress/"
     EOT
   }
 }
