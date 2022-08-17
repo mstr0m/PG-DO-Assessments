@@ -94,22 +94,17 @@ resource "local_file" "inventory" {
     command = "ANSIBLE_FORCE_COLOR=1 ansible-playbook k8s.yaml"
   }
 
-  # Now we replace ip address in local ~/.kube/config to public one
-  provisioner "local-exec" {
-    # And we replace ip address in local ~/.kube/config to public one
-    command = "sed -ri 's/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b'/${aws_instance.k8s-master.public_ip}/ ~/.kube/config"
-  }
-
   # Deploy plaltform and application layers
   provisioner "local-exec" {
     # Switching context to root
     working_dir = "${path.module}/../../"
     command = <<EOT
-      "kubectl apply -f ./platform/namespace.yaml"
-      "kubectl apply -f ./platform/user/"
-      "kubectl apply -f ./platform/nfs-server/"
-      "kubectl apply -f ./app/mysql/"
-      "kubectl apply -f ./app/wordpress/"
+      "pwd"
+      "kubectl apply -f platform/namespace.yaml --insecure-skip-tls-verify"
+      "kubectl apply -f platform/user/ --insecure-skip-tls-verify"
+      "kubectl apply -f platform/nfs-server/ --insecure-skip-tls-verify"
+      "kubectl apply -f app/mysql/ --insecure-skip-tls-verify"
+      "kubectl apply -f app/wordpress/ --insecure-skip-tls-verify"
     EOT
   }
 }
