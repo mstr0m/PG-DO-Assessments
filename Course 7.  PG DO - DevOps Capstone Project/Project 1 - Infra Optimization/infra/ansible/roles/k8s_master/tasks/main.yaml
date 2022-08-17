@@ -3,9 +3,13 @@
   stat:
     path: "/etc/kubernetes/pki/ca.key"
   register: kubeadm_ca
-  
+
+- name: Get public IP of master
+  command: curl http://2ip.io
+  register: publicIP
+
 - name: Init
-  shell: kubeadm init --pod-network-cidr=10.244.0.0/16
+  shell: kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address {{ publicIP.stdout }} --apiserver-cert-extra-sans strings {{ publicIP.stdout }}
   when: not kubeadm_ca.stat.exists
 
 - name: Ensure .kube directory exists.
@@ -20,17 +24,11 @@
     dest: ~/.kube/config
     state: link
     mode: 0644
-  
-- name: Copy admin.conf to localhost ~/.kube/conf
-  ansible.builtin.fetch:
-    src: /etc/kubernetes/admin.conf
-    dest: ~/.kube/config
-    flat: yes
 
-- name: Installing Pod network…. (Flannel)
+- name: Installing Pod network (Flannel)
   shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
-- name: Getting join command from the master node…
+- name: Getting join command from the master node
   shell: kubeadm token create --print-join-command
   register: join_command
  
@@ -38,3 +36,15 @@
   add_host:
     name: k8s_master
     k8s_join_command: "{{ join_command.stdout }}"
+
+# - name: Replace local ip in kubectl admin.conf to public ip
+#   replace:
+#     path: /etc/kubernetes/admin.conf
+#     regexp: '(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b'
+#     replace: "{{ publicIP.stdout }}"
+
+- name: Copy admin.conf to localhost ~/.kube/conf
+  ansible.builtin.fetch:
+    src: /etc/kubernetes/admin.conf
+    dest: ~/.kube/config
+    flat: yes
