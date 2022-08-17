@@ -93,18 +93,22 @@ resource "local_file" "inventory" {
     # We use Force Color option because by default terrafrom output will be lack and white
     command = "ANSIBLE_FORCE_COLOR=1 ansible-playbook k8s.yaml"
   }
+}
 
-  # Deploy plaltform and application layers
+# Deploy plaltform and application layers
+resource null_resource deploy {
   provisioner "local-exec" {
     # Switching context to root
     working_dir = "${path.module}/../../"
-    command = <<EOT
-      "pwd"
-      "kubectl apply -f platform/namespace.yaml"
-      "kubectl apply -f platform/user/"
-      "kubectl apply -f platform/nfs-server/"
-      "kubectl apply -f app/mysql/"
-      "kubectl apply -f app/wordpress/"
+    command = <<-EOT
+      pwd
+      kubectl apply -f platform/namespace.yaml
+      kubectl apply -f platform/user/
+      kubectl apply -f platform/nfs-server/
+      kubectl apply -f app/mysql/
+      kubectl apply -f app/wordpress/
     EOT
+    interpreter = ["/bin/bash", "-c"]
   }
 }
+
