@@ -10,4 +10,13 @@
     - terrafrom init
     - terrafrom plan
     - terrafrom apply
-4. Terraform will prepare local k8s cluster config ~/.kube/config 
+4. Terraform will prepare local k8s cluster config ~/.kube/config
+5. 
+K8S_MASTER_IP=x.x.x.x
+sed -ri 's/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b'/$K8S_MASTER_IP/ ~/.kube/config
+6. 
+"kubectl apply -f ./platform/namespace.yaml"
+      "kubectl apply -f ./platform/user/"
+      "kubectl apply -f ./platform/nfs-server/"
+      "kubectl apply -f ./app/mysql/"
+      "kubectl apply -f ./app/wordpress/"
