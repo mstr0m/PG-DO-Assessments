@@ -9,7 +9,7 @@
   register: publicIP
 
 - name: Init
-  shell: kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-cert-extra-sans={{ publicIP.stdout }}
+  shell: kubeadm init --apiserver-cert-extra-sans={{ publicIP.stdout }}
   when: not kubeadm_ca.stat.exists
 
 - name: Ensure .kube directory exists.
