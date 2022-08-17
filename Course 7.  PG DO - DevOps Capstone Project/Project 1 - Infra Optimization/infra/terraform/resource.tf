@@ -97,11 +97,12 @@ resource "local_file" "inventory" {
 
 # Deploy plaltform and application layers
 resource null_resource deploy {
+  depends_on = [local_file.inventory]
+  
   provisioner "local-exec" {
     # Switching context to root
     working_dir = "${path.module}/../../"
     command = <<-EOT
-      pwd
       kubectl apply -f platform/namespace.yaml
       kubectl apply -f platform/user/
       kubectl apply -f platform/nfs-server/
