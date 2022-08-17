@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: nfs-server
+  namespace: app
 spec:
   serviceName: nfs-server
   replicas: 1
