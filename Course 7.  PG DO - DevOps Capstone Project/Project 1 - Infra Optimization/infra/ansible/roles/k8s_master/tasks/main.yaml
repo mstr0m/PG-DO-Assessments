@@ -25,8 +25,8 @@
     state: link
     mode: 0644
 
-- name: Installing Pod network (Flannel)
-  shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+- name: Installing Pod network
+  shell: kubectl apply -f https://cloud.weave.works/k8s/net?k8s-version=1.20
 
 - name: Getting join command from the master node
   shell: kubeadm token create --print-join-command
