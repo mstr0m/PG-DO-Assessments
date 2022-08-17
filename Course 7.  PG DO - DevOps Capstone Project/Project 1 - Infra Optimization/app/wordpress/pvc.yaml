@@ -11,4 +11,4 @@ spec:
   volumeName: nfs-pv
   resources:
     requests:
-      storage: 3Gi
+      storage: 1Gi
