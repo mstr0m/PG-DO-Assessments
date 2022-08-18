@@ -10,5 +10,4 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: wordpress
-  targetCPUUtilizationPercentage: 50
-  targetMemoryUtilizationPercentage: 50
+  targetCPUUtilizationPercentage: 20
