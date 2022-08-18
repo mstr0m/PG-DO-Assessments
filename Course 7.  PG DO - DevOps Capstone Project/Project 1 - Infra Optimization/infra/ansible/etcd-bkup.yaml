@@ -1,0 +1,30 @@
+---
+- name: Backup ETCD
+  hosts: k8s_masters
+  remote_user: ubuntu
+  become: yes
+
+  tasks:
+  - name: Install etcd-client
+    apt:
+      name: '{{item}}'
+      state: present
+      update_cache: yes
+    with_items:
+      - etcd-client
+
+  - name: Get advertise-client-url
+    shell: "kubectl describe pod etcd -n kube-system | grep -e '--advertise-client-urls' | awk '{print $1}' | cut -d '=' -f2"
+    register: advertiseClientUrls
+
+  - name: Backup ETCD
+    shell: ETCDCTL_API=3 etcdctl --endpoints {{ advertiseClientUrls.stdout }} \
+        --cacert /etc/kubernetes/pki/etcd/ca.crt \
+        --key /etc/kubernetes/pki/etcd/server.key \
+        --cert /etc/kubernetes/pki/etcd/server.crt snapshot save etcd_backup.db
+
+  - name: Download backup to localhost
+    ansible.builtin.fetch:
+      src: /home/ubuntu/etcd_backup.db
+      dest: ~/etcd_backup.db
+      flat: yes

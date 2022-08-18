@@ -95,12 +95,13 @@ resource "local_file" "inventory" {
   }
 }
 
-# Deploy plaltform and application layers
+# Deploy application layer
 resource null_resource deploy {
   depends_on = [local_file.inventory]
   
   provisioner "local-exec" {
-    # Switching context to root
+    # Switching context to app manifest folder
+    # Deploy everything and wait for wordpress deployment
     working_dir = "${path.module}/../../app"
     command = <<-EOT
       kubectl apply -f namespace.yaml
@@ -108,8 +109,21 @@ resource null_resource deploy {
       kubectl apply -f user/
       kubectl apply -f mysql/
       kubectl apply -f wordpress/
+      kubectl -n app wait --for=condition=available --timeout=300s deployment/wordpress
     EOT
     interpreter = ["/bin/bash", "-c"]
   }
 }
 
+# Backup ETCD
+resource null_resource etcd-bkup {
+  depends_on = [null_resource.deploy]
+  
+  provisioner "local-exec" {
+    # Switching context to ansible folder
+    working_dir = "${path.module}/../ansible/"
+    # Run ansible-playbook, it will use freshly created inventory file
+    # We use Force Color option because by default terrafrom output will be lack and white
+    command = "ANSIBLE_FORCE_COLOR=1 ansible-playbook etcd-bkup.yaml"
+  }
+}
