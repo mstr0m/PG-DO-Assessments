@@ -10,5 +10,5 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: 172.31.30.59
+    server: 172.31.17.190
     path: "/nfs-share/wordpress"
