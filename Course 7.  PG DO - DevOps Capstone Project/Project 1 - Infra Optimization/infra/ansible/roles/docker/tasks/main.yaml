@@ -9,6 +9,7 @@
     - curl
     - gnupg
     - lsb-release
+    - nfs-common
 
 - name: Add Docker GPG apt Key
   apt_key:

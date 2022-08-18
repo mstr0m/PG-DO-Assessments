@@ -8,7 +8,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  volumeName: nfs-pv
+  volumeName: wordpress-pv
   resources:
     requests:
       storage: 1Gi

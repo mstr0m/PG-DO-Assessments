@@ -15,6 +15,7 @@
 
   roles:
   - k8s_master
+  - nfs-server
 
 - name: Configure k8s workers
   hosts: k8s_workers

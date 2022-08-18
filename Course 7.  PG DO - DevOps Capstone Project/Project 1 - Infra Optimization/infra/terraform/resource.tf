@@ -105,7 +105,6 @@ resource null_resource deploy {
     command = <<-EOT
       kubectl apply -f platform/namespace.yaml
       kubectl apply -f platform/user/
-      kubectl apply -f platform/nfs-server/
       kubectl apply -f app/mysql/
       kubectl apply -f app/wordpress/
     EOT

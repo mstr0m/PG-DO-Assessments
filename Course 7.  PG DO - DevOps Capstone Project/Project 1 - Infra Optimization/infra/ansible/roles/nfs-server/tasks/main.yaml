@@ -6,7 +6,7 @@
     update_cache: yes
 
 - name: Setup NFS
-  command: "{{ item }}"
+  shell: "{{ item }}"
   with_items:
     - mkdir -p /nfs-share/wordpress
     - echo -e "/nfs-share 	*(rw,sync,no_root_squash)" >> /etc/exports
@@ -16,7 +16,7 @@
     - systemctl restart nfs-kernel-server
 
 - name: Get nfs server ip
-  command: ip a | grep inet | awk 'FNR == 3 {print $2}' | cut -d '/' -f1
+  shell: "ip a | grep inet | awk 'FNR == 3 {print $2}' | cut -d '/' -f1"
   register: nfsIP
 
 - name: Replace nfs ip in manifest
