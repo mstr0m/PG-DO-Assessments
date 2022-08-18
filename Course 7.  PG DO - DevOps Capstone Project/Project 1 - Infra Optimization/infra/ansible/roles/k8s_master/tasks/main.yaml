@@ -1,5 +1,5 @@
 ---
-- name: Check if kubeadm has already run
+- name: Check if kubeadm has already been executed
   stat:
     path: "/etc/kubernetes/pki/ca.key"
   register: kubeadm_ca
