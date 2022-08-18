@@ -25,8 +25,11 @@
     state: link
     mode: 0644
 
-- name: Installing Pod network
+- name: Installing network pluging
   shell: kubectl apply -f https://cloud.weave.works/k8s/net?k8s-version=1.20
+
+- name: Install metrics server
+  shell: kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 
 - name: Getting join command from the master node
   shell: kubeadm token create --print-join-command

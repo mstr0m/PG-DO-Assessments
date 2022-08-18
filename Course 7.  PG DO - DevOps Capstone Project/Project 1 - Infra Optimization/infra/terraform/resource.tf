@@ -101,12 +101,12 @@ resource null_resource deploy {
   
   provisioner "local-exec" {
     # Switching context to root
-    working_dir = "${path.module}/../../"
+    working_dir = "${path.module}/../../app"
     command = <<-EOT
-      kubectl apply -f platform/namespace.yaml
-      kubectl apply -f platform/user/
-      kubectl apply -f app/mysql/
-      kubectl apply -f app/wordpress/
+      kubectl apply -f namespace.yaml
+      kubectl apply -f user/
+      kubectl apply -f mysql/
+      kubectl apply -f wordpress/
     EOT
     interpreter = ["/bin/bash", "-c"]
   }
