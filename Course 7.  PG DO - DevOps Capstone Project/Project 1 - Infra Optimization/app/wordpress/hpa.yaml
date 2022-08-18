@@ -4,10 +4,10 @@ metadata:
   name: wordpress
   namespace: app
 spec:
-  maxReplicas: 6
+  maxReplicas: 8
   minReplicas: 2
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: wordpress
-  targetCPUUtilizationPercentage: 20
+  targetCPUUtilizationPercentage: 50
