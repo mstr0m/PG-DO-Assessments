@@ -104,6 +104,7 @@ resource null_resource deploy {
     working_dir = "${path.module}/../../app"
     command = <<-EOT
       kubectl apply -f namespace.yaml
+      kubectl apply -f metrics-server.yaml
       kubectl apply -f user/
       kubectl apply -f mysql/
       kubectl apply -f wordpress/
